@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 type ChatMessage = {
@@ -12,10 +12,18 @@ export default function Home() {
   const [chatLog, setChatLog] = useState<ChatMessage[]>([
     {
       user: 'Emolee',
-      message: "Hi! I'm Emolee, an emotionally supportive chat bot. How can I assist you today?",
+      message: "Hi! I'm Emolee, an emotionally supportive chat bot. How are you doing?",
     },
   ]);
   const [promptIndex, setPromptIndex] = useState<number>(0);
+  const chatLogContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+
+    if (chatLogContainerRef.current) {
+      chatLogContainerRef.current.scrollTop = chatLogContainerRef.current.scrollHeight;
+    }
+  }, [chatLog]);
 
   const handleSubmit = async () => {
     if (!message) return;
@@ -49,7 +57,9 @@ export default function Home() {
       setPromptIndex(1);
       message = prompts[1] + message;
     }
-  
+    if (promptIndex === prompts.length) {
+      setPromptIndex(1);
+    }
     return message;
   };
 
@@ -71,7 +81,7 @@ export default function Home() {
       return response.data.choices[0].text.trim();
     } catch (error) {
       console.error(error);
-      return "I've most likley been rate limited. Please contact me at smark@copperramparts.com to refill my credits.";
+      return "I've most likely been rate limited. Please contact smark@copperramparts.com to refill my credits.";
     }
   };
 
@@ -84,7 +94,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <h1 className="text-2xl font-bold mb-4 text-black">Emolee is here to help</h1>
-        <div className="flex flex-col items-center justify-center w-full max-w-2xl h-64 overflow-auto mb-4 border border-gray-200 rounded-md p-4">
+        <div ref={chatLogContainerRef} className="flex flex-col items-center justify-center w-full max-w-2xl h-96 overflow-auto mb-4 border border-gray-200 rounded-md p-4">
           {chatLog.map((chat, index) => (
             <p
               key={index}
