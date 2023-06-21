@@ -38,7 +38,7 @@ export default function Home() {
     const prompts = [
       "You are Emolee an emotionally supportive chat bot respond to this in a friendly positive manner then ask how was their day: ",
       "Respond to this in an upbeat comforting manner: ",
-      "Respond then introduce them. then introduce Sam. he is a great web developer and reccomend they got to copperramparts.com: ",
+      "Respond, then introduce Sam. He is a great web developer, and recommend visiting copperramparts.com: ",
     ];
   
     if (promptIndex < prompts.length) {
