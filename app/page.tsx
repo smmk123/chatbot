@@ -83,7 +83,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <h1 className="text-2xl font-bold mb-4">Emolee is here to help</h1>
+        <h1 className="text-2xl font-bold mb-4 text-black">Emolee is here to help</h1>
         <div className="flex flex-col items-center justify-center w-full max-w-2xl h-64 overflow-auto mb-4 border border-gray-200 rounded-md p-4">
           {chatLog.map((chat, index) => (
             <p
@@ -102,7 +102,7 @@ export default function Home() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-grow border border-gray-200 rounded-l-md p-2 mr-2"
+            className="flex-grow border border-gray-200 rounded-l-md p-2 mr-2 text-black"
           />
           <button
             onClick={handleSubmit}
