@@ -1,34 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+# Emolee Chat App
+
+Emolee Chat App is a React application that allows users to interact with Emolee, an emotionally supportive chat bot powered by OpenAI's GPT-3 language model.
+
+## Features
+
+- Engage in a conversation with Emolee, an emotionally supportive chat bot.
+- Emolee responds to user messages with friendly and positive interactions.
+- Chat log displays the conversation history between the user and Emolee.
+- Around 3 or six messages in emolee will promote the developer of this code.
 
 ## Getting Started
 
-First, run the development server:
+To run the Emolee Chat App locally, follow these steps:
+
+### Prerequisites
+
+- Node.js (version >= 12.0.0)
+- npm (version >= 6.0.0)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/smmk123/chatbot.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd chatbot
+```
+
+3. Install the dependencies:
+
+```bash
+npm install
+```
+
+### Set up OpenAI API Key
+
+To use Emolee Chat App, you need to obtain an OpenAI API Key. Follow these steps:
+
+1. Register for an OpenAI account at [OpenAI Website](https://openai.com/).
+2. Retrieve your API Key from the OpenAI Dashboard.
+
+### Configure Environment Variables
+
+Create a `.env` file in the project root directory and add the following environment variable:
+
+```
+OPEN_AI_KEY=your-api-key
+```
+
+Replace `your-api-key` with your actual OpenAI API Key obtained in the previous step.
+
+**Note:** Make sure to keep your `.env` file private and never commit it to version control systems.
+
+### Start the Application
+
+Run the following command to start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and visit `http://localhost:3000` to see the Emolee Chat App in action.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Deploy to Production
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Emolee is designed to work with Vercel's Nextjs services. Head to [Vercel's site](https://vercel.com/) to sign up.
 
-## Learn More
+## Serverless Proxy for OpenAI API Key
 
-To learn more about Next.js, take a look at the following resources:
+To ensure the security of your OpenAI API Key, the Emolee Chat App uses a serverless proxy implemented with Next.js. The proxy is responsible for making requests to the OpenAI API, allowing you to keep the API Key hidden from client-side code.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The serverless proxy endpoint can be found in the `/api/proxy` directory of the project. It leverages Next.js API routes and uses the OpenAI API Key provided in the environment variables.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the [MIT License](LICENSE).

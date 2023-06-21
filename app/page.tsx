@@ -34,6 +34,7 @@ export default function Home() {
   };
 
   const appendPrompts = (message: string): string => {
+    //if you modify this array of prompt you suggestions will eventually make their way into the conversation.
     const prompts = [
       "You are Emolee an emotionally supportive chat bot respond to this in a friendly positive manner then ask how was their day: ",
       "Respond to this in an upbeat comforting manner: ",
@@ -63,7 +64,7 @@ export default function Home() {
         method: 'POST',
         params: {
           prompt: messageWithPrompts,
-          max_tokens: 60,
+          max_tokens: 600,
         },
       });
       console.log(response.data);
@@ -74,30 +75,42 @@ export default function Home() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-6 bg-white shadow-md rounded-md w-1/2">
         <h1 className="text-2xl font-bold mb-4">Emolee is here to help</h1>
-        <div className="h-64 overflow-auto mb-4 border border-gray-200 rounded-md p-4">
+        <div className="flex flex-col items-center justify-center w-full max-w-2xl h-64 overflow-auto mb-4 border border-gray-200 rounded-md p-4">
           {chatLog.map((chat, index) => (
-            <p key={index} className={`mb-2 ${chat.user === 'User' ? 'text-blue-500' : 'text-green-500'}`}><strong>{chat.user}:</strong> {chat.message}</p>
+            <p
+              key={index}
+              className={`mb-2 ${
+                chat.user === 'User' ? 'text-blue-500' : 'text-green-500'
+              }`}
+            >
+              <strong>{chat.user}:</strong> {chat.message}
+            </p>
           ))}
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center w-full max-w-2xl">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="flex-grow border border-gray-200 rounded-l-md p-2 mr-2"
           />
-          <button 
-            onClick={handleSubmit} 
+          <button
+            onClick={handleSubmit}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-md"
           >
             Submit
           </button>
         </div>
-      </div>
     </div>
   );
 };
