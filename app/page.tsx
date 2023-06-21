@@ -70,7 +70,7 @@ export default function Home() {
       return response.data.choices[0].text.trim();
     } catch (error) {
       console.error(error);
-      return "An error occurred while sending the request to ChatGPT.";
+      return "I've most likley been rate limited. Please contact me at smark@copperramparts.com to refill my credits.";
     }
   };
 
