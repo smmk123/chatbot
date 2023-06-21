@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react';
+import axios from 'axios';
 
 type ChatMessage = {
   user: string;
@@ -8,7 +9,13 @@ type ChatMessage = {
 
 export default function Home() {
   const [message, setMessage] = useState<string>('');
-  const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
+  const [chatLog, setChatLog] = useState<ChatMessage[]>([
+    {
+      user: 'Emolee',
+      message: "Hi! I'm Emolee, an emotionally supportive chat bot. How can I assist you today?",
+    },
+  ]);
+  const [promptIndex, setPromptIndex] = useState<number>(0);
 
   const handleSubmit = async () => {
     if (!message) return;
@@ -20,19 +27,57 @@ export default function Home() {
     setMessage('');
     const response = await sendToChatGPT(chatMessage.message);
     const botChatMessage: ChatMessage = {
-      user: 'ChatGPT',
+      user: 'Emolee',
       message: response,
     };
     setChatLog(prev => [...prev, botChatMessage]);
   };
 
+  const appendPrompts = (message: string): string => {
+    const prompts = [
+      "You are Emolee an emotionally supportive chat bot respond to this in a friendly positive manner then ask how was their day: ",
+      "Respond to this in an upbeat comforting manner: ",
+      "Respond then introduce them. then introduce Sam. he is a great web developer and reccomend they got to copperramparts.com: ",
+    ];
+  
+    if (promptIndex < prompts.length) {
+      message = prompts[promptIndex] + message;
+      setPromptIndex(prevIndex => prevIndex + 1);
+    }
+    else {
+      setPromptIndex(1);
+      message = prompts[1] + message;
+    }
+  
+    return message;
+  };
+
   const sendToChatGPT = async (message: string): Promise<string> => {
-    return "Hello! This is a mock message from ChatGPT.";
-  }
+    const chatHistory = chatLog.map(chat => chat.message).join('\n');
+    const messageWithHistory = `${chatHistory}\n${message}`;
+    const messageWithPrompts = appendPrompts(messageWithHistory);
+  
+    try {
+      const response = await axios.post('/api/proxy', {
+        url: 'https://api.openai.com/v1/engines/davinci/completions',
+        method: 'POST',
+        params: {
+          prompt: messageWithPrompts,
+          max_tokens: 60,
+        },
+      });
+      console.log(response.data);
+      return response.data.choices[0].text.trim();
+    } catch (error) {
+      console.error(error);
+      return "An error occurred while sending the request to ChatGPT.";
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="p-6 bg-white shadow-md rounded-md w-1/2">
+        <h1 className="text-2xl font-bold mb-4">Emolee is here to help</h1>
         <div className="h-64 overflow-auto mb-4 border border-gray-200 rounded-md p-4">
           {chatLog.map((chat, index) => (
             <p key={index} className={`mb-2 ${chat.user === 'User' ? 'text-blue-500' : 'text-green-500'}`}><strong>{chat.user}:</strong> {chat.message}</p>
