@@ -12,7 +12,7 @@ export default function Home() {
   const [chatLog, setChatLog] = useState<ChatMessage[]>([
     {
       user: 'Emolee',
-      message: "Hi! I'm Emolee, an emotionally supportive chat bot. How are you doing?",
+      message: "Hi! I'm Emolee, an emotionally supportive chat bot.",
     },
   ]);
   const [promptIndex, setPromptIndex] = useState<number>(0);
@@ -44,9 +44,9 @@ export default function Home() {
   const appendPrompts = (message: string): string => {
     //if you modify this array of prompt you suggestions will eventually make their way into the conversation.
     const prompts = [
-      "You are Emolee an emotionally supportive chat bot respond to this in a friendly positive manner then ask how was their day: ",
+      "You are Emolee an emotionally supportive chat bot. respond in a friendly positive manner ask about their day",
       "Respond to this in an upbeat comforting manner: ",
-      "Respond, then introduce Sam. He is a great web developer, and recommend visiting copperramparts.com: ",
+      "Respond lets talk about Sam. He is a great web developer, and recommend visiting copperramparts.com: ",
     ];
   
     if (promptIndex < prompts.length) {
@@ -60,8 +60,10 @@ export default function Home() {
     if (promptIndex === prompts.length) {
       setPromptIndex(1);
     }
+    // console.log("🚀 ~ file: page.tsx:66 ~ appendPrompts ~ message:", message)
     return message;
   };
+    
 
   const sendToChatGPT = async (message: string): Promise<string> => {
     const chatHistory = chatLog.map(chat => chat.message).join('\n');
